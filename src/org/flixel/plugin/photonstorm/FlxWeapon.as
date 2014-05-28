@@ -14,10 +14,16 @@
 
 package org.flixel.plugin.photonstorm 
 {
-	import org.flixel.*;
 	import flash.utils.getTimer;
-	import org.flixel.plugin.photonstorm.BaseTypes.Bullet;
+	
+	import org.flixel.FlxG;
+	import org.flixel.FlxGroup;
+	import org.flixel.FlxPoint;
+	import org.flixel.FlxRect;
+	import org.flixel.FlxSound;
+	import org.flixel.FlxSprite;
 	import org.flixel.plugin.photonstorm.FlxVelocity;
+	import org.flixel.plugin.photonstorm.BaseTypes.Bullet;
 	
 	/**
 	 * TODO
@@ -119,6 +125,9 @@ package org.flixel.plugin.photonstorm
 		private var magazineSwapCallback:Function;
 		private var magazineSwapSound:FlxSound;
 		
+		private var __damage:Number;
+		private var __bulletClass:Class;
+		
 		private static const FIRE:uint = 0;
 		private static const FIRE_AT_MOUSE:uint = 1;
 		private static const FIRE_AT_POSITION:uint = 2;
@@ -136,9 +145,17 @@ package org.flixel.plugin.photonstorm
 		 * @param	xVariable	The x axis variable of the parent to use when firing. Typically "x", but could be "screenX" or any public getter that exposes the x coordinate.
 		 * @param	yVariable	The y axis variable of the parent to use when firing. Typically "y", but could be "screenY" or any public getter that exposes the y coordinate.
 		 */
-		public function FlxWeapon(name:String, parentRef:* = null, xVariable:String = "x", yVariable:String = "y")
+		public function FlxWeapon(name:String, weaponDamage:Number, parentRef:* = null, xVariable:String = "x", yVariable:String = "y", bulletClass:Class=null)
 		{
 			this.name = name;
+			
+			this.__damage = weaponDamage;
+			
+			if (bulletClass) {
+				this.__bulletClass = bulletClass;
+			} else {
+				this.__bulletClass = Bullet;
+			}
 			
 			bounds = new FlxRect(0, 0, FlxG.width, FlxG.height);
 			
@@ -150,6 +167,10 @@ package org.flixel.plugin.photonstorm
 			{
 				setParent(parentRef, xVariable, yVariable);
 			}
+		}
+		
+		public function get damage():Number {
+			return this.__damage;
 		}
 		
 		/**
@@ -168,7 +189,7 @@ package org.flixel.plugin.photonstorm
 			
 			for (var b:uint = 0; b < quantity; b++)
 			{
-				var tempBullet:Bullet = new Bullet(this, b);
+				var tempBullet:Bullet = new this.__bulletClass(this, b);
 				
 				tempBullet.makeGraphic(width, height, color);
 				
@@ -200,7 +221,7 @@ package org.flixel.plugin.photonstorm
 			
 			for (var b:uint = 0; b < quantity; b++)
 			{
-				var tempBullet:Bullet = new Bullet(this, b);
+				var tempBullet:Bullet = new this.__bulletClass(this, b);
 				
 				if (autoRotate)
 				{
@@ -237,7 +258,7 @@ package org.flixel.plugin.photonstorm
 			
 			for (var b:uint = 0; b < quantity; b++)
 			{
-				var tempBullet:Bullet = new Bullet(this, b);
+				var tempBullet:Bullet = new this.__bulletClass(this, b);
 				
 				tempBullet.loadGraphic(imageSequence, true, false, frameWidth, frameHeight);
 				

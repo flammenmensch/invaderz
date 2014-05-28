@@ -21,7 +21,7 @@ package invaders.objects {
 			
 			this.__starfield = FlxSpecialFX.starfield();
 			
-			this.__stars = this.__starfield.create(0, 0, FlxG.width, FlxG.height, 256);
+			this.__stars = this.__starfield.create(0, 0, FlxG.width, FlxG.height, 64);
 			
 			this.__starfield.setStarSpeed(0, .5);
 			

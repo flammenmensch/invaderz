@@ -8,13 +8,17 @@ package {
 	import org.flixel.FlxGame;
 	
 	//[Frame(factoryClass="Preloader")]
-	[SWF(width="720", height="560", backgroundColor="0x000000")]
+	[SWF(width="640", height="560", backgroundColor="0x000000")]
 	public class Invaders extends FlxGame {
 		
 		public function Invaders() {
-			super(360, 280, PlayState, 2);
+			super(320, 280, PlayState, 2);
 			
 			this.forceDebugger = true;
+			
+			FlxG.debug = true;
+			
+			FlxG.setDebuggerLayout(FlxG.DEBUGGER_STANDARD);
 			
 			FlxG.mouse.show();
 			

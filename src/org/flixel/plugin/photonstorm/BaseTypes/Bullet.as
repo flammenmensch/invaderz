@@ -13,12 +13,13 @@
 
 package org.flixel.plugin.photonstorm.BaseTypes 
 {
+	import flash.utils.getTimer;
+	
 	import org.flixel.FlxPoint;
 	import org.flixel.FlxSprite;
 	import org.flixel.plugin.photonstorm.FlxMath;
 	import org.flixel.plugin.photonstorm.FlxVelocity;
 	import org.flixel.plugin.photonstorm.FlxWeapon;
-	import flash.utils.getTimer;
 
 	public class Bullet extends FlxSprite
 	{
@@ -192,6 +193,10 @@ package org.flixel.plugin.photonstorm.BaseTypes
 			{
 				weapon.onFireSound.play();
 			}
+		}
+		
+		public function get sourceWeapon():FlxWeapon {
+			return weapon;
 		}
 		
 		public function set xGravity(gx:int):void
